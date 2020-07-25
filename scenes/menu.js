@@ -166,13 +166,17 @@ var onStart =  function () {
   }
 
 
-  if (localStorage && localStorage.salvageMuted == "true") {
-    localStorage.salvageMuted = true;
-    gameWorld.muted = true;
-    window.muted = true;
-    mute_button_text.opacity = 0.5;
-    if (gameWorld.audioContext && gameWorld.audioContext.suspend)
-      gameWorld.audioContext.suspend();
+  try {    
+    if (localStorage && localStorage.salvageMuted == "true") {
+      localStorage.salvageMuted = true;
+      gameWorld.muted = true;
+      window.muted = true;
+      mute_button_text.opacity = 0.5;
+      if (gameWorld.audioContext && gameWorld.audioContext.suspend)
+        gameWorld.audioContext.suspend();
+    }
+  } catch(err) {
+    console.warn("Local Storage could not be accessed.  Make sure cross-domain cookies are permitted.")
   }
   
   var ship = this.bg.add(Object.create(Sprite).init(0, gameWorld.height - 128, Resources.viper));

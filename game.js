@@ -26,9 +26,14 @@ gameWorld.wave = 1;
 gameWorld.ending = 0;
 
 gameWorld.unmute = function () {
-  if (localStorage) {
-    localStorage.salvageMuted = false;
+  try {    
+    if (localStorage) {
+      localStorage.salvageMuted = false;
+    }
+  } catch(err) {
+    console.warn("Local Storage could not be accessed.  Make sure cross-domain cookies are permitted.")
   }
+
   if (this.audioContext && this.audioContext.resume) {
     this.audioContext.resume();
   }
@@ -38,9 +43,14 @@ gameWorld.unmute = function () {
 };
 
 gameWorld.mute = function () {
-  if (localStorage) {
-    localStorage.salvageMuted = true;
+  try {    
+    if (localStorage) {
+      localStorage.salvageMuted = true;
+    }
+  } catch(err) {
+    console.warn("Local Storage could not be accessed.  Make sure cross-domain cookies are permitted.")
   }
+
   if (this.audioContext && this.audioContext.suspend) {
     this.audioContext.suspend();
   }
@@ -555,7 +565,7 @@ World.draw = function () {
 
 World.playSound = function(sound, volume) {
   if (AudioContext) {
-    var volume = volume || 1;
+    var volume = volume || 0.75;
     //console.log(sound);
     var buffer = sound.buffer;
     var source = this.audioContext.createBufferSource();
